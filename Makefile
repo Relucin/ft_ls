@@ -1,4 +1,9 @@
-INCLUDES = main.o
+INCLUDES = ft_ls.o \
+			ft_btreenew.o \
+			ft_btreeadd.o \
+			ft_btreeiof.o \
+			ft_btreermmin.o \
+			ftls_sorts.o
 
 FLAGS 	 = -Llibft -lft
 FLAGS2	 = -Ilibft -I. -Wall -Wextra -Werror -g
