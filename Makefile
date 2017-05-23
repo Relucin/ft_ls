@@ -1,8 +1,8 @@
-INCLUDES	:= ftls.o ftls_l.o ftls_sorts.o
+INCLUDES	+= ftls.o ftls_l.o ftls_sorts.o
+INCLUDES	+= ftls_print.o ftls_read.o ftls_set.o
 INCLUDES	:= $(addprefix src/, $(INCLUDES))
 FLAGS		+= -Iinclude/ -Ilibft/include/ -Wall -Wextra -Werror
-# FLAGSLIB	+= -Llibft -lftprintf
-FLAGS		+= -g
+# FLAGS		+= -g
 NAME		:= ft_ls
 
 .PHONY: clean fclean re all

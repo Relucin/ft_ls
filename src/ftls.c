@@ -6,12 +6,11 @@
 /*   By: bmontoya <bmontoya@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 12:18:40 by bmontoya          #+#    #+#             */
-/*   Updated: 2017/05/22 19:59:53 by bmontoya         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:27:37 by bmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ftls.h>
-#include <errno.h>
 #include <stdbool.h>
 #include <ftstdio.h>
 #include <ftstring.h>
@@ -86,16 +85,6 @@ void	ftls_initdir(const char *dir)
 		ft_btreeadd(&g_ftls_ctree, data, g_sort);
 }
 
-void	ftls_fdne(t_ftls *ftls)
-{
-	ft_dprintf(2, "ls: %s: No such file or directory\n",
-	(*ftls->name) ? ftls->name : "fts_open");
-	free(ftls->name);
-	free(ftls->fname);
-	free(ftls->stat);
-	free(ftls);
-}
-
 void	ftls_add_file(const char *name, const char *path, t_btree **dir)
 {
 	t_ftls	*file;
@@ -122,90 +111,6 @@ void	ftls_add_file(const char *name, const char *path, t_btree **dir)
 	else
 		file->dp = 0;
 	ft_btreeadd(&g_ftls_ctree, file, g_sort);
-}
-
-void	ftls_print_file(t_ftls *ftls)
-{
-	if (ftls->err && ftls->err != ENOENT)
-		ft_dprintf(2, "ls: %s: Permission denied\n", ftls->name);
-	else if (g_ftls_flags & l)
-		ftls_pl(ftls);
-	else
-		ft_printf("%s\n", ftls->name);
-	if (!(g_ftls_flags & R) || (ftls->stat->st_mode & S_IFMT) != S_IFDIR)
-	{
-		free(ftls->fname);
-		free(ftls->name);
-		if (ftls->stat)
-			free(ftls->stat);
-		free(ftls);
-	}
-}
-
-void	ftls_clear_globals(void)
-{
-	g_ftls_blocks = 0;
-	g_ftls_lnklen = 0;
-	g_ftls_owrlen = 0;
-	g_ftls_grplen = 0;
-	g_ftls_bytes = 0;
-	g_ftls_major = 0;
-	g_ftls_minor = 0;
-}
-
-void	ftls_readdir(t_ftls *ftls, t_btree **sub_dir)
-{
-	struct dirent	*sdp;
-
-	while ((sdp = readdir(ftls->dp)) != NULL)
-	{
-		if (sdp->d_name[0] != '.' || g_ftls_flags & a)
-			ftls_add_file(sdp->d_name, ftls->fname, sub_dir);
-	}
-	if (ftls->err)
-		ft_dprintf(2, "ls: %s: Permission denied\n", ftls->name);
-	else if ((g_ftls_flags & l) && g_ftls_ctree)
-		ft_printf("total %d\n", g_ftls_blocks);
-	ft_btreeiof(g_ftls_ctree, &ftls_print_file);
-	ftls_clear_globals();
-	g_ftls_ctree = 0;
-	closedir(ftls->dp);
-}
-
-void	ftls_readtree(t_ftls *ftls)
-{
-	t_btree			*sub_dir;
-
-	sub_dir = 0;
-	if (g_ftls_print)
-		ft_printf("%s%s:\n", (g_ftls_print++ == 1) ? "" : "\n", ftls->fname);
-	else
-		g_ftls_print = 2;
-	if (ftls->dp)
-		ftls_readdir(ftls, &sub_dir);
-	else
-		ft_dprintf(2, "ls: %s: Permission denied\n", ftls->name);
-	free(ftls->name);
-	free(ftls->fname);
-	free(ftls->stat);
-	free(ftls);
-	while (sub_dir)
-		ftls_readtree((t_ftls *)ft_btreermmin(&sub_dir));
-}
-
-void	ftls_select_sort(void)
-{
-	if (g_ftls_flags & r)
-	{
-		if (g_ftls_flags & t)
-			g_sort = &ftls_rtsort;
-		else
-			g_sort = &ftls_rsort;
-	}
-	else if (g_ftls_flags & t)
-		g_sort = &ftls_tsort;
-	else
-		g_sort = &ftls_sort;
 }
 
 void	ftls(void)

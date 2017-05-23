@@ -6,7 +6,7 @@
 /*   By: bmontoya <bmontoya@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 15:08:26 by bmontoya          #+#    #+#             */
-/*   Updated: 2017/05/21 23:11:55 by bmontoya         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:00:17 by bmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*ft_strstr(const char *big, const char *little);
 char	*ft_strnstr(const char *big, const char *lit, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strnbrlen(long long nbr, int base);
 /*
 ** extra
 ** Things that exist in libft but not string.h

@@ -6,7 +6,7 @@
 /*   By: bmontoya <bmontoya@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 14:54:00 by bmontoya          #+#    #+#             */
-/*   Updated: 2017/05/22 16:41:43 by bmontoya         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:01:53 by bmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,16 +121,6 @@ void	ftls_pl(t_ftls *ftls)
 	}
 	else
 		ft_printf("%s\n", ftls->name);
-}
-
-int		ft_strnbrlen(long long nbr, int base)
-{
-	int len;
-
-	len = (nbr < 0) ? 2 : 1;
-	while ((nbr /= base))
-		++len;
-	return (len);
 }
 
 void	ftls_maxset(t_ftls *ftls)

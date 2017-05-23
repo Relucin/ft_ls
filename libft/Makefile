@@ -31,7 +31,7 @@ S_FILES		+= ft_striter ft_striteri ft_strmap
 S_FILES		+= ft_strmapi ft_strequ ft_strnequ
 S_FILES		+= ft_strsub ft_strjoin ft_strtrim
 S_FILES		+= ft_strsplit ft_strcatmulti ft_strupper
-S_FILES		+= ft_strcrep
+S_FILES		+= ft_strcrep ft_strnbrlen
 S_FILES		:= $(addprefix $(STRING_DIR)/, $(S_FILES))
 #ftstdlib
 LIB_FILES	:= ft_atoi ft_itoa
