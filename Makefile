@@ -1,22 +1,32 @@
 INCLUDES	:= ftls.o ftls_l.o ftls_sorts.o
 INCLUDES	:= $(addprefix src/, $(INCLUDES))
-FLAGS		+= -Iinclude/ -Wall -Wextra -Werror
-FLAGSLIB	+= -L. -lftprintf
+FLAGS		+= -Iinclude/ -Ilibft/include/ -Wall -Wextra -Werror
+# FLAGSLIB	+= -Llibft -lftprintf
 FLAGS		+= -g
 NAME		:= ft_ls
 
-$(NAME): $(INCLUDES)
-	gcc $(FLAGS) $(FLAGSLIB) $^ -o $@
-
-%.o: %.c
-	gcc $(FLAGS) -c $^ -o $@
-
-clean:
-	rm -rf $(INCLUDES)
-
-fclean: clean
-	rm -rf $(NAME)
-
-re: fclean all
+.PHONY: clean fclean re all
 
 all: $(NAME)
+
+$(NAME): $(INCLUDES) libft/libftprintf.a
+	@echo 'Building $(NAME)'
+	@gcc $(FLAGS) $(FLAGSLIB) $^ -o $@
+
+%.o: %.c
+	@gcc $(FLAGS) -c $^ -o $@
+
+libft/libftprintf.a:
+	@make -C libft/
+
+clean:
+	@echo 'Removing $(NAME)--object files'
+	@rm -rf $(INCLUDES)
+	@make -C libft/ clean
+
+fclean: clean
+	@echo 'Removing $(NAME)'
+	@rm -rf $(NAME)
+	@make -C libft/ fclean
+
+re: fclean all
